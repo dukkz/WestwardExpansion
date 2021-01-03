@@ -1,21 +1,35 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    public Transform player;
     public float lerpSpeed;
+    private GameObject player;
+    public bool foundPlayer = false;
 
     
-    void Awake()
+    void Update()
     {
-        player = GameObject.Find("Player").transform;
+        if(!foundPlayer)
+        {
+            foreach(GameObject character in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if(character.gameObject.GetComponent<PlayerMotor>().isLocalPlayer)
+                {
+                    player = character;
+                    foundPlayer = true;
+                }
+            }
+        } else return;
+
+
     }
 
     void FixedUpdate()
     {
 
-        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(player.position.x, player.position.y, 0), lerpSpeed * Time.deltaTime);
+        this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(player.transform.position.x, player.transform.position.y, 0), lerpSpeed * Time.deltaTime);
     }
 }

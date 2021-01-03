@@ -13,17 +13,25 @@ public class PlayerMotor : NetworkBehaviour
     private bool facingLeft, facingRight, facingUp, facingDown, isAttacking;
     private float verticalInput, horizontalInput;
     private Vector2 cursorScreenPosition, cursorWorldPosition;
+    private GameObject weapon;
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        weapon = GetComponentInChildren<Weapon>().gameObject;
     }
 
     private void Update()
     {
         PlayerAttack();
         DetermineDirection();
+        WeaponFaceMouse();
+
+        if(!isMoving)
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 
     void FixedUpdate()
@@ -59,6 +67,7 @@ public class PlayerMotor : NetworkBehaviour
             if (Input.GetAxis("Fire1") > 0)
             {
                 isAttacking = true;
+                GetComponent<PlayerAttack>().Attack();
             }
             else isAttacking = false;
         }
@@ -146,5 +155,15 @@ public class PlayerMotor : NetworkBehaviour
                 }
             }
         } 
+    }
+
+    void WeaponFaceMouse()
+    {
+        if(isLocalPlayer)
+        {
+            Vector2 dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            weapon.transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+        }
     }
 }

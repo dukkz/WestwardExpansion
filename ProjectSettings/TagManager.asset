@@ -6,6 +6,8 @@ TagManager:
   tags:
   - BG Environment
   - FG Environment
+  - Projectiles
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -15,16 +17,16 @@ TagManager:
   - UI
   - BG Environment
   - FG Environment
-  - Player
+  - Players
+  - Enemies
+  - NPCs
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerProjectiles
+  - EnemyProjectiles
   - 
   - 
   - 
@@ -51,4 +53,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1352381301
+    locked: 0
+  - name: Projectile
+    uniqueID: 4212893875
     locked: 0
